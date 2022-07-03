@@ -1,4 +1,14 @@
 #!/usr/bin/python3
+
+# 解题思路：
+# 首先想的是动规，但是时间复杂度需要 O(N * N)
+# 没有想到太好的动规优化
+# note: 只有负数是需要关注的，非负数一定是直接加入
+# 使用贪心算法，从左至右，当前a[i]能加入则加入，
+# 如果不能加入（一定是负数,a[i]<0），那么选择已加入中的最小负数a[j]，
+# 如果a[j] < a[i]，则踢除a[j]，将当前的a[i]加入（一定更优：个数不变，生命值更高）
+# 时间复杂度: O(N)
+
 import sys
 import os
 import time
@@ -11,8 +21,8 @@ def cal(n, a):
     f = [-1 for i in range(n + 1)]
     f[0] = 0
     result = 0
-    last_sum = 0
-    last_min = 0
+    last_sum = 1
+    last_min = 1
     for i in range(n):
         if (last_sum + a[i] >= 0):
             last_sum += a[i]

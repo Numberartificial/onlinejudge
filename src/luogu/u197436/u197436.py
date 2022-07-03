@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+
+# 解题思路：
+# 动规:按照算式的数值个数递增，
+# 枚举中间截断的运算符位置，更新当前算式的最小值与最大值
+# 时间复杂度: O(N * 3)
+
 import sys
 import os
 import time
