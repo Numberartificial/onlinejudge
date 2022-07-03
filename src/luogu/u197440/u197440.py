@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+
+# 解题思路：
+# 模拟：使用双向链表模拟牌堆洗牌操作
+# 时间复杂度: O(K * M)
+
 import sys
 import os
 import time
