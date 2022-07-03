@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+
+# 解题思路：
+# 在K分钟内最多书的方案下，
+# 每多在A选择一本书，那么在B可读的书不可能增多，
+# 因此使用两个指针顺次移动,贪心完成所有方案的枚举
+# 时间复杂度: O(N) + O(M)
+
 import sys
 import os
 import time
