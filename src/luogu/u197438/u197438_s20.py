@@ -11,8 +11,6 @@
 
 # 只拿了20分
 
-# 复盘： 思路应该没问题，删除最小元素那里写错了，需要最小堆。唉。。。
-
 import sys
 import os
 import time
@@ -21,57 +19,59 @@ from math import *
 
 LOCAL = not __debug__  # True if compile option '-O'
 
-class minheap:
-    def __init__(self):
-        pass 
-
-def swap(a, b):
-    k = a
-    a = b
-    b = k
-
-def push(g, o):
-    g.append(o)
-    l = len(g) - 1
-    while (l != 0) and (g[(l - 1) // 2] > g[l]):
-        swap(g[(l - 1) // 2], g[l]) 
-        l = (l - 1) // 2
-
-def sink(g):
-    l = 0
-    n = len(g)
-    next = True
-    while (l < n) and next:
-        next = False
-        ll = l * 2 + 1
-        rr = l * 2 + 2
-        min_idx = l
-        if (ll < n) and (g[ll] < g[min_idx]):
-            min_idx = ll
-        if (rr < n) and (g[rr] < g[min_idx]):
-            min_idx = rr
-        if (min_idx != l):
-            swap(g[l], g[min_idx])
-            l = min_idx
-            next = True
-
 def cal(n, a):
+    f = [-1 for i in range(n + 1)]
+    f[0] = 0
     result = 0
-    last_sum = 0
-    g = []
+    last_sum = 1
+    last_min = 1
     for i in range(n):
         if (last_sum + a[i] >= 0):
             last_sum += a[i]
+            if (a[i] < last_min):
+                last_min = a[i]
             result += 1
-            if (a[i] < 0):
-                push(g, a[i])
         else:
-            if len(g) > 0:
-                last_min = g[0]
-                if (a[i] > last_min):
-                    g[0] = a[i]
-                    sink(g)
-                    last_sum += a[i] - last_min
+            if (a[i] > last_min):
+                last_sum += a[i] - last_min
+                last_min = a[i]
+
+    # for i in range(n):
+    #     last_max = result
+    #     for k in range(last_max + 1, 0, -1):
+    #         if (f[k - 1] < 0):
+    #             continue
+    #         else:
+    #             if (f[k - 1] + a[i]) >= 0:
+    #                f[k] = max(f[k], f[k - 1] + a[i])
+    #                result = max(result, k)
+
+    # new_a = []
+    # i = 0
+    # while i < n:
+    #     if (a[i] < 0):
+    #         new_a.append((a[i], 1))
+    #     else:
+    #         sa = a[i]
+    #         o = 1
+    #         while (i < n - 1) & (a[i + 1] >= 0):
+    #             i += 1
+    #             o += 1
+    #             sa += a[i]
+    #         new_a.append((sa, o))
+    #     i += 1
+
+    # fs[0] = (0, 0)
+    # for i in range(len(new_a)):
+    #     (ai, oi) = new_a[i]
+    #     if (ai >= 0):
+    #         for j in range(len(fs)):
+    #             (aj, oj) = fs[j]
+    #             new_o = oj + oi
+    #             f[new_o] = max(f[new_o], aj + ai)
+    #             fs[j] = (f[new_o], oj + oi)
+    #     else:
+
     
     return result 
 
