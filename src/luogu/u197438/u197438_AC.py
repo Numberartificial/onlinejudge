@@ -25,16 +25,13 @@ class minheap:
     def __init__(self):
         pass 
 
-def swap(a, b):
-    k = a
-    a = b
-    b = k
-
 def push(g, o):
     g.append(o)
     l = len(g) - 1
     while (l != 0) and (g[(l - 1) // 2] > g[l]):
-        swap(g[(l - 1) // 2], g[l]) 
+        k = g[(l - 1) // 2]
+        g[(l - 1) // 2] = g[l]
+        g[l] = k
         l = (l - 1) // 2
 
 def sink(g):
@@ -51,7 +48,9 @@ def sink(g):
         if (rr < n) and (g[rr] < g[min_idx]):
             min_idx = rr
         if (min_idx != l):
-            swap(g[l], g[min_idx])
+            k = g[l]
+            g[l] = g[min_idx]
+            g[min_idx] = k
             l = min_idx
             next = True
 
