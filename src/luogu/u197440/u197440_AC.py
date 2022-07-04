@@ -4,6 +4,9 @@
 # 模拟：使用双向链表模拟牌堆洗牌操作
 # 时间复杂度: O(K * M)
 
+# 优化数据结构，拉平对象；
+# prev[head] 忘记更新了
+
 import sys
 import os
 import time
@@ -12,48 +15,35 @@ from math import *
 
 LOCAL = not __debug__  # True if compile option '-O'
 
-class Card:
-    v = 0
-    next = None
-    prev = None
-
-    def __init__(self, v):
-        self.v = v
-
 def cal(x, n, m, k, l, r):
-    cards = []
-    last = None
-    for i in range(n):
-        card = Card(i)
-        if (last != None):
-            last.next = card
-            card.prev = last
-        last = card
-        cards.append(card)
-    head = cards[0]
-
+    next = [i + 1 for i in range(0, n)]
+    prev = [i - 1 for i in range(0, n)]
+    NIL = -1
+    next[n - 1] = NIL
+    prev[0] = NIL
+    head = 0
     for i in range(m):
         now_x = x[i] - 1
-        now_card = cards[now_x]
-        if (now_card.v == head.v):
+        if (prev[now_x] == NIL):
             continue
         o = 0
-        end_card = now_card
-        while (end_card.next is not None) & (o < k):
-            end_card = end_card.next
+        end_card = now_x
+        while (next[end_card] != NIL) & (o < k):
+            end_card = next[end_card]
             o += 1
-        if (now_card.prev is not None):
-            now_card.prev.next = end_card.next
-        if (end_card.next is not None):
-            end_card.next.prev = now_card.prev
-        now_card.prev = None
-        end_card.next = head
-        head = now_card
-    
+        next[prev[now_x]] = next[end_card]
+        if (next[end_card] != NIL):
+            prev[next[end_card]] = prev[now_x]
+        
+        prev[now_x] = NIL
+        next[end_card] = head
+        prev[head] = end_card
+        head = now_x
+ 
     for i in range(1, n + 1):
-        if (i in range(l, r + 1)):
-            print(head.v + 1)
-        head = head.next
+        if (i >= l) and (i <= r):
+            print(head + 1)
+        head = next[head]
         
 def main():
     n, m, k= map(int, input().split())
